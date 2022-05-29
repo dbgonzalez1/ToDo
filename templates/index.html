@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/content/tables/">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--TABLA VISUALIZAR-->
+    <div class="sitio">
+        <div class="contenedor">
+            <h1>Lista de Pendientes</h1>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Tareas Pendientes</th>
+                        <th>Prioridad</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Comprar Leche</td>
+                    <td>Media</td>
+                    <td>Pendiente</td>
+                </tr>
+            </table>
+
+            <!--FORMULARIO-->
+            <div class="contenedor">
+                <h1>Formulario de Tareas Pendientes</h1>
+                <div class="col">
+                    <!-- Formulario -->
+                    <div class="form-outline">
+                        <input type="text" name="tarea" id="tarea" class="form-control" />
+                        <label class="form-label" for="form8Example1">Ingrese Tarea</label>
+                        <select class="form-control" name="prioridad" id="prioridad">
+                            <option value="Baja">Baja</option>
+                            <option value="Media">Media</option>
+                            <option value="Alta">Alta</option>
+                        </select>
+                        <label class="form-label" for="form8Example1">Ingrese Prioridad</label>
+                        <input type="text" name="estado" id="estado" class="form-control" />
+                        <label class="form-label" for="form8Example2">Estado (PENDIENTE/COMPLETO)</label>
+                        <input type="email" name="correoelectronico" id="correoelectronico" class="form-control" />
+                        <label class="form-label" for="form8Example2">Ingrese Email</label>
+                    </div>
+                </div>
+                <form class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary" onclick="agregarDatos();">Agregar a la
+                            tarea</button>
+                        <button type="button" class="btn btn-primary" onclick="editarDato();">Modificar a la
+                            tarea</button>
+                        <button type="button" class="btn btn-primary" onclick="eliminarDato();">Eliminar a la
+                            tarea</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 0.88rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        text-align: left;
+        background-color: #b6b6ca;
+    }
+
+    i {
+        font-style: italic;
+    }
+
+    /*Estilo de ubicacion y color de tabbla y contenido*/
+    .sitio {
+        padding: 70px;
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #000;
+    }
+
+    th,
+    td {
+        width: 25%;
+        text-align: left;
+        vertical-align: top;
+        border: 1px solid #000;
+        border-collapse: collapse;
+        padding: 0.3em;
+        caption-side: bottom;
+    }
+
+    th {
+        background: rgb(167, 154, 191);
+    }
+
+    /*Estilo de color en botones*/
+    .btn-primary {
+        color: #fff;
+        background-color: #605182;
+        border-color: #605182;
+    }
+    .col-12{
+        padding-left: 30% !important;
+    }
+</style>
+
+<script>
+    /*Variable para definir a nuesta tabla*/
+    var tIndex,
+        table = document.getElementById("table");
+
+    /*verificación si existe o no datos en el formulario*/
+    function verificacionDatos() {
+        var isEmpty = false,
+            tarea = document.getElementById("tarea").value,
+            prioridad = document.getElementById("prioridad").value,
+            estado = document.getElementById("estado").value,
+            correoelectronico = document.getElementById("correoelectronico").value;
+
+        if (tarea === "") {
+            alert("Ingrese su tarea");
+            isEmpty = true;
+        } else if (estado === "") {
+            alert("Ingrese prioridad");
+            isEmpty = true;
+        } else if (estado === "") {
+            alert("Ingrese estado");
+            isEmpty = true;
+        } else if (correoelectronico === "") {
+            alert("Ingrese email");
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+
+    /*Función para agregar datos por celda*/
+    function agregarDatos() {
+        if (!verificacionDatos()) {
+            var newRow = table.insertRow(table.length),
+                cell1 = newRow.insertCell(0),
+                cell2 = newRow.insertCell(1),
+                cell3 = newRow.insertCell(2),
+
+                tarea = document.getElementById("tarea").value,
+                prioridad = document.getElementById("prioridad").value,
+                estado = document.getElementById("estado").value;
+
+            cell1.innerHTML = tarea;
+            cell2.innerHTML = prioridad;
+            cell3.innerHTML = estado;
+
+
+            /*Llama al elemento set y agrega*/
+            seleccionarDato();
+        }
+    }
+
+    /*Funcion para seleccionar dato de la tabla*/
+    function seleccionarDato() {
+        for (var i = 1; i < table.rows.length; i++) {
+            table.rows[i].onclick = function () {
+                // get the seected row index
+                tIndex = this.rowIndex;
+                document.getElementById("tarea").value = this.cells[0].innerHTML;
+                document.getElementById("prioridad").value = this.cells[1].innerHTML;
+                document.getElementById("estado").value = this.cells[2].innerHTML;
+                document.getElementById("correoelectronico").value = this.cells[3].innerHTML;
+            };
+        }
+    }
+    seleccionarDato();
+
+    function editarDato() {
+        var tarea = document.getElementById("tarea").value,
+            prioridad = document.getElementById("prioridad").value,
+            estado = document.getElementById("estado").value,
+            correoelectronico = document.getElementById("correoelectronico").value;
+        if (!verificacionDatos()) {
+            table.rows[tIndex].cells[0].innerHTML = tarea;
+            table.rows[tIndex].cells[1].innerHTML = prioridad;
+            table.rows[tIndex].cells[2].innerHTML = estado;
+            table.rows[tIndex].cells[3].innerHTML = correoelectronico;
+        }
+    }
+
+    function eliminarDato() {
+        table.deleteRow(tIndex);
+        /*Limpia la fila*/
+        document.getElementById("tarea").value = "";
+        document.getElementById("prioridad").value = "";
+        document.getElementById("estado").value = "";
+        document.getElementById("correoelectronico").value = "";
+    }
+
+</script>
+
+</html>
